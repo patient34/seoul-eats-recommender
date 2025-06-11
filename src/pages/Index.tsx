@@ -1,13 +1,15 @@
 
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Star, MapPin, Clock, DollarSign } from 'lucide-react';
+import { Search, Filter, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import RestaurantCard from '@/components/RestaurantCard';
 import FilterPanel from '@/components/FilterPanel';
-import { restaurants } from '@/data/restaurants';
+import ChatBot from '@/components/ChatBot';
+import LocationSelector from '@/components/LocationSelector';
+import { getRestaurantsByLocation, getAllLocations } from '@/data/locations';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +17,15 @@ const Index = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('서울');
+  const [isChatBotOpen, setIsChatBotOpen] = useState(false);
+
+  const availableLocations = getAllLocations();
+  const restaurants = getRestaurantsByLocation(
+    availableLocations.find(loc => loc === selectedLocation) ? 
+    availableLocations.indexOf(selectedLocation) === 0 ? 'seoul' :
+    availableLocations.indexOf(selectedLocation) === 1 ? 'busan' : 'jeju' : 'seoul'
+  );
 
   const filteredAndSortedRestaurants = useMemo(() => {
     let filtered = restaurants.filter(restaurant => {
@@ -42,7 +53,7 @@ const Index = () => {
     });
 
     return filtered;
-  }, [searchTerm, selectedCategory, selectedPriceRange, sortBy]);
+  }, [searchTerm, selectedCategory, selectedPriceRange, sortBy, restaurants]);
 
   const categories = [...new Set(restaurants.map(r => r.cuisine))];
 
@@ -54,12 +65,13 @@ const Index = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-primary">FoodSpot</h1>
-              <Badge variant="secondary" className="ml-3">Seoul</Badge>
+              <Badge variant="secondary" className="ml-3">{selectedLocation}</Badge>
             </div>
-            <div className="flex items-center space-x-4">
-              <MapPin className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Seoul, South Korea</span>
-            </div>
+            <LocationSelector
+              selectedLocation={selectedLocation}
+              onLocationChange={setSelectedLocation}
+              availableLocations={availableLocations}
+            />
           </div>
         </div>
       </header>
@@ -171,7 +183,7 @@ const Index = () => {
             {/* Results Header */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">
-                {filteredAndSortedRestaurants.length}개의 음식점
+                {selectedLocation}에서 {filteredAndSortedRestaurants.length}개의 음식점
               </h2>
               <div className="flex items-center text-sm text-muted-foreground">
                 <Clock className="h-4 w-4 mr-1" />
@@ -198,6 +210,12 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* ChatBot */}
+      <ChatBot
+        isOpen={isChatBotOpen}
+        onToggle={() => setIsChatBotOpen(!isChatBotOpen)}
+      />
     </div>
   );
 };
