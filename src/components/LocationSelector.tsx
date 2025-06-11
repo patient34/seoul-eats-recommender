@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MapPin, ChevronDown } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 
@@ -19,12 +19,12 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     <div className="flex items-center space-x-4">
       <div className="flex items-center space-x-2">
         <MapPin className="h-5 w-5 text-muted-foreground" />
-        <span className="text-sm text-muted-foreground">위치:</span>
+        <span className="text-sm text-muted-foreground">Location:</span>
       </div>
       
       <Select value={selectedLocation} onValueChange={onLocationChange}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="지역 선택" />
+          <SelectValue placeholder="Select location" />
         </SelectTrigger>
         <SelectContent>
           {availableLocations.map((location) => (

@@ -17,7 +17,7 @@ const Index = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('서울');
+  const [selectedLocation, setSelectedLocation] = useState('Seoul');
   const [isChatBotOpen, setIsChatBotOpen] = useState(false);
 
   const availableLocations = getAllLocations();
@@ -84,7 +84,7 @@ const Index = () => {
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="음식점이나 음식 종류를 검색하세요..."
+                placeholder="Search restaurants or cuisine types..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -95,10 +95,10 @@ const Index = () => {
             <div className="flex flex-wrap gap-2 lg:gap-4">
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="w-[140px]">
-                  <SelectValue placeholder="음식 종류" />
+                  <SelectValue placeholder="Cuisine" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">모든 음식</SelectItem>
+                  <SelectItem value="all">All Cuisines</SelectItem>
                   {categories.map(category => (
                     <SelectItem key={category} value={category}>{category}</SelectItem>
                   ))}
@@ -107,26 +107,26 @@ const Index = () => {
 
               <Select value={selectedPriceRange} onValueChange={setSelectedPriceRange}>
                 <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="가격대" />
+                  <SelectValue placeholder="Price" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">모든 가격</SelectItem>
-                  <SelectItem value="$">$ (저렴)</SelectItem>
-                  <SelectItem value="$$">$$ (보통)</SelectItem>
-                  <SelectItem value="$$$">$$$ (비쌈)</SelectItem>
-                  <SelectItem value="$$$$">$$$$ (고급)</SelectItem>
+                  <SelectItem value="all">All Prices</SelectItem>
+                  <SelectItem value="$">$ (Cheap)</SelectItem>
+                  <SelectItem value="$$">$$ (Moderate)</SelectItem>
+                  <SelectItem value="$$$">$$$ (Expensive)</SelectItem>
+                  <SelectItem value="$$$$">$$$$ (Very Expensive)</SelectItem>
                 </SelectContent>
               </Select>
 
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="정렬" />
+                  <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="rating">평점순</SelectItem>
-                  <SelectItem value="price-low">가격 낮은순</SelectItem>
-                  <SelectItem value="price-high">가격 높은순</SelectItem>
-                  <SelectItem value="name">이름순</SelectItem>
+                  <SelectItem value="rating">Rating</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="name">Name</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -137,7 +137,7 @@ const Index = () => {
                 className="lg:hidden"
               >
                 <Filter className="h-4 w-4 mr-2" />
-                필터
+                Filters
               </Button>
             </div>
           </div>
@@ -162,7 +162,7 @@ const Index = () => {
             <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50">
               <div className="bg-white h-full w-80 p-6 overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-lg font-semibold">필터</h3>
+                  <h3 className="text-lg font-semibold">Filters</h3>
                   <Button variant="ghost" size="sm" onClick={() => setShowFilters(false)}>
                     ✕
                   </Button>
@@ -183,11 +183,11 @@ const Index = () => {
             {/* Results Header */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">
-                {selectedLocation}에서 {filteredAndSortedRestaurants.length}개의 음식점
+                {filteredAndSortedRestaurants.length} restaurants in {selectedLocation}
               </h2>
               <div className="flex items-center text-sm text-muted-foreground">
                 <Clock className="h-4 w-4 mr-1" />
-                실시간 업데이트
+                Real-time updates
               </div>
             </div>
 
@@ -201,9 +201,9 @@ const Index = () => {
             {/* No Results */}
             {filteredAndSortedRestaurants.length === 0 && (
               <div className="text-center py-12">
-                <div className="text-muted-foreground text-lg mb-2">검색 결과가 없습니다</div>
+                <div className="text-muted-foreground text-lg mb-2">No results found</div>
                 <div className="text-sm text-muted-foreground">
-                  다른 검색어나 필터를 시도해보세요
+                  Try different search terms or filters
                 </div>
               </div>
             )}
