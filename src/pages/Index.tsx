@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -17,15 +16,13 @@ const Index = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('rating');
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('Seoul');
+  const [selectedLocation, setSelectedLocation] = useState('daegu');
+  const [selectedCuisine, setSelectedCuisine] = useState('all');
+  const [selectedRating, setSelectedRating] = useState('all');
   const [isChatBotOpen, setIsChatBotOpen] = useState(false);
 
   const availableLocations = getAllLocations();
-  const restaurants = getRestaurantsByLocation(
-    availableLocations.find(loc => loc === selectedLocation) ? 
-    availableLocations.indexOf(selectedLocation) === 0 ? 'seoul' :
-    availableLocations.indexOf(selectedLocation) === 1 ? 'busan' : 'jeju' : 'seoul'
-  );
+  const restaurants = getRestaurantsByLocation(selectedLocation);
 
   const filteredAndSortedRestaurants = useMemo(() => {
     let filtered = restaurants.filter(restaurant => {

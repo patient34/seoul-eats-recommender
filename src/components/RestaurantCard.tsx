@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Star, MapPin, Clock, DollarSign, Heart } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -40,13 +39,19 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
     ));
   };
 
+  const handleClick = () => {
+    const searchQuery = encodeURIComponent(restaurant.name);
+    window.open(`https://map.naver.com/p/search/${searchQuery}`, '_blank');
+  };
+
   return (
     <Card className="group hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       <div className="relative overflow-hidden">
         <img
           src={restaurant.image}
           alt={restaurant.name}
-          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
+          onClick={handleClick}
         />
         <Button
           size="sm"
@@ -64,7 +69,10 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ restaurant }) => {
         <div className="space-y-3">
           {/* Restaurant Name & Rating */}
           <div>
-            <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">
+            <h3 
+              className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors cursor-pointer"
+              onClick={handleClick}
+            >
               {restaurant.name}
             </h3>
             <div className="flex items-center gap-2 mt-1">
